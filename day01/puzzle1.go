@@ -13,8 +13,17 @@ func check(e error) {
 	}
 }
 
+func findTotal(freqs []int) int {
+	var tot int
+	for _, freq := range freqs {
+		tot += freq
+	}
+	return tot
+}
+
 func findLoop(freqs []int) int {
 	seen := make(map[int]bool)
+	seen[0] = true
 
 	var tot int
 	for {
@@ -31,11 +40,7 @@ func findLoop(freqs []int) int {
 	}
 }
 
-func main() {
-	file, err := os.Open("./input01_1.txt")
-	check(err)
-	defer file.Close()
-
+func parseFreqs(file *os.File) []int {
 	var freqs []int
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -43,13 +48,17 @@ func main() {
 		check(err)
 		freqs = append(freqs, freq)
 	}
+	return freqs
+}
 
-	var tot int
-	for _, freq := range freqs {
-		tot += freq
-	}
+func main() {
+	file, err := os.Open("./input01_1.txt")
+	check(err)
+	defer file.Close()
 
-	fmt.Printf("puzzle 1: %d\n", tot)
+	freqs := parseFreqs(file)
+
+	fmt.Printf("puzzle 1: %d\n", findTotal(freqs))
 
 	fmt.Printf("puzzle 2: %d\n", findLoop(freqs))
 }
