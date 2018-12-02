@@ -49,7 +49,7 @@ func parseFreqs(file *os.File) []int {
 }
 
 func main() {
-	file, err := os.Open("./input01_1.txt")
+	file, err := os.Open("./input01.txt")
 	check(err)
 	defer file.Close()
 
