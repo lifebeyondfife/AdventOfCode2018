@@ -29,12 +29,9 @@ func findLoop(freqs []int) int {
 	for {
 		for _, freq := range freqs {
 			tot += freq
-
 			if seen[tot] {
 				return tot
-
 			}
-
 			seen[tot] = true
 		}
 	}
@@ -52,13 +49,12 @@ func parseFreqs(file *os.File) []int {
 }
 
 func main() {
-	file, err := os.Open("./input01_1.txt")
+	file, err := os.Open("./input01.txt")
 	check(err)
 	defer file.Close()
 
 	freqs := parseFreqs(file)
 
-	fmt.Printf("puzzle 1: %d\n", findTotal(freqs))
-
-	fmt.Printf("puzzle 2: %d\n", findLoop(freqs))
+	fmt.Printf("part 1: %d\n", findTotal(freqs))
+	fmt.Printf("part 2: %d\n", findLoop(freqs))
 }
