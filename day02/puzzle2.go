@@ -44,33 +44,18 @@ func checksum(ids []string) int {
 }
 
 func commonCharacters(ids []string) string {
-	orderedIds := make([]string, len(ids))
-	copy(orderedIds, ids)
-
-	/* There is a flaw in this program's strategy that means it won't work
-	for all inputs. If the difference occurs between the two common
-	strings occurs in the first character, the two strings won't be
-	next to each other in the ordered array. This gets the right answer
-	for the given input but there are other for which it won't. */
-	sort.Strings(orderedIds)
-
-	for i := 1; i < len(orderedIds); i++ {
-		var common string
-		var differences int
-		for idx := range orderedIds[i-1] {
-			if orderedIds[i-1][idx] != orderedIds[i][idx] {
-				differences++
-
-				if differences > 1 {
-					break
-				}
-			} else {
-				common = common + string(orderedIds[i-1][idx])
-			}
+	for i := 0; i < len(ids[0]); i++ {
+		var shortIds []string
+		for _, id := range ids {
+			shortIds = append(shortIds, id[:i]+id[i+1:])
 		}
 
-		if differences == 1 {
-			return common
+		sort.Strings(shortIds)
+
+		for i := 1; i < len(shortIds); i++ {
+			if shortIds[i-1] == shortIds[i] {
+				return shortIds[i]
+			}
 		}
 	}
 
