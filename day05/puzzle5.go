@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"os"
 	"sort"
@@ -30,17 +31,17 @@ func findProblemPolymer(units string) int {
 	var reactionLengths []int
 
 	for char := 'a'; char <= 'z'; char++ {
-		var unitsRemoved string
+		var unitsRemoved bytes.Buffer
 
 		for _, unit := range units {
 			if unit == char || unit == unicode.ToUpper(char) {
 				continue
 			}
 
-			unitsRemoved = unitsRemoved + string(unit)
+			unitsRemoved.WriteRune(unit)
 		}
 
-		reactionLengths = append(reactionLengths, executeChainReactions(unitsRemoved))
+		reactionLengths = append(reactionLengths, executeChainReactions(unitsRemoved.String()))
 	}
 
 	sort.Ints(reactionLengths)
@@ -53,16 +54,11 @@ func executeChainReactions(units string) int {
 	for {
 		var foundReaction bool
 		for _, chainTerm := range chainTerms {
-			for {
-				index := strings.Index(units, chainTerm)
+			origLen := len(units)
+			units = strings.Replace(units, chainTerm, "", -1)
 
-				if index == -1 {
-					break
-				}
-
+			if origLen > len(units) {
 				foundReaction = true
-
-				units = units[:index] + units[index+2:]
 			}
 		}
 
@@ -78,6 +74,7 @@ func parseUnits() string {
 	file, err := os.Open("./input05.txt")
 	check(err)
 	defer file.Close()
+
 	scanner := bufio.NewScanner(file)
 	scanner.Scan()
 	return scanner.Text()
