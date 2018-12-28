@@ -54,7 +54,7 @@ func treeScore(numbers []int) int {
 	return calculateScore(root)
 }
 
-func calculateNodeScore(node Node) int {
+func calculateNodeValue(node Node) int {
 	var score int
 	if len(node.children) == 0 {
 		for _, metadatum := range node.metadata {
@@ -66,7 +66,7 @@ func calculateNodeScore(node Node) int {
 
 	for _, metadatum := range node.metadata {
 		if metadatum > 0 && metadatum <= len(node.children) {
-			score += calculateNodeScore(node.children[metadatum-1])
+			score += calculateNodeValue(node.children[metadatum-1])
 		}
 	}
 
@@ -78,7 +78,7 @@ func nodeValue(numbers []int) int {
 
 	_ = generateTree(&root, numbers)
 
-	return calculateNodeScore(root)
+	return calculateNodeValue(root)
 }
 
 func parseNumbers() []int {

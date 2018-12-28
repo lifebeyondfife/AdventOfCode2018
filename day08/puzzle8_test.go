@@ -52,7 +52,7 @@ func TestNodeValue(t *testing.T) {
 
 	for _, test := range tests {
 		if nodeValue(test.testCase) != test.answer {
-			t.Errorf("Error with tree score %d, expected %d", nodeValue(test.testCase), test.answer)
+			t.Errorf("Error with node value %d, expected %d", nodeValue(test.testCase), test.answer)
 		}
 	}
 }
