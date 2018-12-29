@@ -17,7 +17,11 @@ func template(_ []int) int {
 	return 0
 }
 
-func parseFreqs(file *os.File) []int {
+func parse() []int {
+	file, err := os.Open("./input.txt")
+	check(err)
+	defer file.Close()
+
 	var freqs []int
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -29,10 +33,6 @@ func parseFreqs(file *os.File) []int {
 }
 
 func main() {
-	file, err := os.Open("./input01.txt")
-	check(err)
-	defer file.Close()
-
 	fmt.Printf("part 1: \n")
 	fmt.Printf("part 2: \n")
 }
