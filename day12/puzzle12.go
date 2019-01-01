@@ -77,25 +77,6 @@ func iterateState(pots []Pot, generations int, rules map[string]string) []Pot {
 	return pots
 }
 
-func findPattern(pots []Pot, rules map[string]string) (int, int) {
-	previousDelta := 0
-	previousScore := totalScore(pots)
-	var generations int
-
-	for {
-		generations++
-		pots = iterateState(pots, 1, rules)
-		score := totalScore(pots)
-		if score-previousScore == previousDelta && previousDelta > 0 {
-			break
-		}
-		previousDelta = score - previousScore
-		previousScore = score
-	}
-
-	return generations, previousDelta
-}
-
 func padEmptyPots(pots []Pot) []Pot {
 	const pad int = 3
 	var earliestPotValue int
@@ -182,6 +163,6 @@ func main() {
 	generations, delta := findStableState(state, rules)
 
 	fmt.Printf("part 1: %d\n", totalScore(iterateState(state, 20, rules)))
-	fmt.Printf("part 2: %d\n",
-		totalScore(iterateState(state, generations, rules))+(50000000000-generations)*delta)
+	fmt.Printf("part 2: %d\n", totalScore(iterateState(state, generations, rules))+
+		(50000000000-generations)*delta)
 }
